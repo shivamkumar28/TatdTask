@@ -1,27 +1,42 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import InitialNavigation from './src/navigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import redux from './src/redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { configAxiosStructure } from './src/provider/api-config';
+import { colors } from './src/constant';
+import FlashMessage from 'react-native-flash-message';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+const { store, persistor } = redux;
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+function App(): React.JSX.Element {
+  useEffect(() => {
+    configAxiosStructure();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaProvider>
+          <SafeAreaView style={styles.safeArea}>
+            <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+            <View style={{ flex: 1 }}>
+              <InitialNavigation />
+              <FlashMessage position="top" />
+            </View>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    backgroundColor: colors.white,
   },
 });
 
