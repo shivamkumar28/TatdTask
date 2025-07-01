@@ -22,7 +22,7 @@ const Splash = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.mainTitle}>{'Hello'}</Text>
+      <Text style={styles.mainTitle}>{'Welcome'}</Text>
     </View>
   );
 };
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 32,
     fontWeight: '700',
-    color: colors.black,
+    color: colors.white,
   },
 });
